@@ -1,8 +1,8 @@
+import 'package:aalbaya/src/styles/colors.dart';
 import 'package:flutter/material.dart';
 
-const TextStyle headstyle =
-    TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+const headstyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
 
-const TextStyle contentstyle = TextStyle(
-  fontSize: 14,
-);
+const contentstyle = TextStyle(fontSize: 14);
+
+const pointstyle = TextStyle(fontWeight: FontWeight.bold, color: pointcolor);
