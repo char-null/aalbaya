@@ -1,4 +1,5 @@
 import 'package:aalbaya/src/pages/add_task_page.dart';
+import 'package:aalbaya/src/pages/report_pagae.dart';
 import 'package:aalbaya/src/styles/colors.dart';
 import 'package:aalbaya/src/styles/textstyle.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,7 +39,7 @@ class HomePage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => const AddTaskPage());
+                            Get.to(() => const ReportPage());
                           },
                           child: const Icon(CupertinoIcons.doc_text),
                         ),
