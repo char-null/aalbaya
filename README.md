@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # aalbaya
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# aalbaya
+>>>>>>> 6dbec96d80461e65cc1aaa4d8c5aa2e5d3e356cb
