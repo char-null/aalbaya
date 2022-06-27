@@ -1,5 +1,9 @@
+import 'package:aalbaya/src/pages/add_task_page.dart';
+import 'package:aalbaya/src/styles/colors.dart';
 import 'package:aalbaya/src/styles/textstyle.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,7 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffe9edf5),
+      backgroundColor: backgroundcolor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -24,9 +28,21 @@ class HomePage extends StatelessWidget {
                             .add_EEEE()
                             .format(DateTime.now()),
                         style: headstyle),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(Icons.add_rounded),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => const AddTaskPage());
+                          },
+                          child: const Icon(Icons.add_rounded),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => const AddTaskPage());
+                          },
+                          child: const Icon(CupertinoIcons.doc_text),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -56,7 +72,7 @@ class HomePage extends StatelessWidget {
   }
 
   SizedBox empty() {
-    return SizedBox(
+    return const SizedBox(
       height: 15,
     );
   }
@@ -76,7 +92,7 @@ class HomePage extends StatelessWidget {
             color: Colors.grey.withOpacity(0.8),
             spreadRadius: 0.4,
             blurRadius: 2,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           )
         ],
       ),
@@ -90,7 +106,7 @@ class HomePage extends StatelessWidget {
           ),
           empty(),
           ListView.builder(
-            physics: ScrollPhysics(),
+            physics: const ScrollPhysics(),
             shrinkWrap: true,
             itemCount: content.length,
             itemBuilder: (context, index) {
