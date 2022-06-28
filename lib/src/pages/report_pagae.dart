@@ -29,7 +29,7 @@ class ReportPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 '진행중인 알바',
                 style: headstyle,
               ),
@@ -55,13 +55,13 @@ class ReportPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           '스타벅스',
                           style: subheadstyle,
                         ),
                         GestureDetector(
                           onTap: () {},
-                          child: Text(
+                          child: const Text(
                             '그만두기',
                             style: pointstyle,
                           ),
@@ -70,7 +70,7 @@ class ReportPage extends StatelessWidget {
                     ),
                     empty(),
                     RichText(
-                      text: TextSpan(
+                      text: const TextSpan(
                           text: '직종 : ',
                           style: contentstyle,
                           children: [
@@ -83,7 +83,7 @@ class ReportPage extends StatelessWidget {
                           ]),
                     ),
                     RichText(
-                      text: TextSpan(
+                      text: const TextSpan(
                           text: '시급 : ',
                           style: contentstyle,
                           children: [
@@ -96,7 +96,7 @@ class ReportPage extends StatelessWidget {
                           ]),
                     ),
                     RichText(
-                      text: TextSpan(
+                      text: const TextSpan(
                           text: '현재까지 총 근무시간 : ',
                           style: contentstyle,
                           children: [
@@ -109,7 +109,7 @@ class ReportPage extends StatelessWidget {
                           ]),
                     ),
                     RichText(
-                      text: TextSpan(
+                      text: const TextSpan(
                           text: '현재까지 총 수입 : ',
                           style: contentstyle,
                           children: [
@@ -126,7 +126,7 @@ class ReportPage extends StatelessWidget {
               ),
               empty(),
               empty(),
-              Text(
+              const Text(
                 '지난 알바',
                 style: headstyle,
               ),
@@ -134,7 +134,7 @@ class ReportPage extends StatelessWidget {
               lastwork(),
               empty(),
               empty(),
-              Text(
+              const Text(
                 '통계',
                 style: headstyle,
               ),
@@ -157,13 +157,13 @@ class ReportPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '평가',
                       style: subheadstyle,
                     ),
                     empty(),
                     RichText(
-                      text: TextSpan(children: [
+                      text: const TextSpan(children: [
                         TextSpan(text: '대단해요! 지금까지 총 ', style: contentstyle),
                         TextSpan(text: '2개', style: contentpointstyle),
                         TextSpan(text: '의 직장에서 ', style: contentstyle),
@@ -186,7 +186,7 @@ class ReportPage extends StatelessWidget {
   }
 
   SizedBox empty() {
-    return SizedBox(
+    return const SizedBox(
       height: 10,
     );
   }
@@ -214,13 +214,13 @@ class ReportPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
+          const Text(
             '할리스',
             style: subheadstyle,
           ),
           empty(),
           RichText(
-            text: TextSpan(text: '직종 : ', style: contentstyle, children: [
+            text: const TextSpan(text: '직종 : ', style: contentstyle, children: [
               TextSpan(
                 text: '카페',
                 style:
@@ -229,7 +229,7 @@ class ReportPage extends StatelessWidget {
             ]),
           ),
           RichText(
-            text: TextSpan(text: '시급 : ', style: contentstyle, children: [
+            text: const TextSpan(text: '시급 : ', style: contentstyle, children: [
               TextSpan(
                 text: '9,160 원',
                 style:
@@ -238,25 +238,32 @@ class ReportPage extends StatelessWidget {
             ]),
           ),
           RichText(
-            text: TextSpan(text: '근무 기간 : ', style: contentstyle, children: [
-              TextSpan(
-                text: '2022-01-04 ~ 2022-06-27',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: pointcolor),
-              ),
-            ]),
+            text: const TextSpan(
+                text: '근무 기간 : ',
+                style: contentstyle,
+                children: [
+                  TextSpan(
+                    text: '2022-01-04 ~ 2022-06-27',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: pointcolor),
+                  ),
+                ]),
           ),
           RichText(
-            text: TextSpan(text: '총 근무시간 : ', style: contentstyle, children: [
-              TextSpan(
-                text: '1500 시간',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: pointcolor),
-              ),
-            ]),
+            text: const TextSpan(
+                text: '총 근무시간 : ',
+                style: contentstyle,
+                children: [
+                  TextSpan(
+                    text: '1500 시간',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: pointcolor),
+                  ),
+                ]),
           ),
           RichText(
-            text: TextSpan(text: '총 수입 : ', style: contentstyle, children: [
+            text:
+                const TextSpan(text: '총 수입 : ', style: contentstyle, children: [
               TextSpan(
                 text: '13,740,000 원',
                 style:
@@ -265,7 +272,7 @@ class ReportPage extends StatelessWidget {
             ]),
           ),
           Row(
-            children: [
+            children: const [
               Text(
                 '만족도 : 4.9',
                 style: contentstyle,
