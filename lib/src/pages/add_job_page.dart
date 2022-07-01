@@ -43,20 +43,9 @@ class AddTaskPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     choiceJob(),
-                    _.choicejobvalidate == false
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Text(
-                              '직종을 선택 해주세요',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: pointcolor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        : Container(),
-                    textFormWidget('detail', '세부 직종', '예) 카페'),
-                    textFormWidget('jobname', '직장 이름', '예) 스타벅스'),
+                    textFormWidget('detail', '세부 직종', '예) 카페', '세부 직종을 입력해주세요'),
+                    textFormWidget(
+                        'jobname', '직장 이름', '예) 스타벅스', '직장 이름을 입력해주세요'),
                     hourlyWage(),
                     firstDay(),
                     choiceDay(),
@@ -85,6 +74,10 @@ class AddTaskPage extends StatelessWidget {
                         // }
                         _.choicejobValidator();
                         _.dayselectedValidator();
+                        _.jobindex != null
+                            ? print(_.typeofjob[_.jobindex!])
+                            : null;
+                        _.workDay();
                         if (_.formkey.currentState!.validate() &&
                             _.choicejobvalidate == true) {
                           _.formkey.currentState!.save();
@@ -136,110 +129,135 @@ class AddTaskPage extends StatelessWidget {
   }
 
   Widget choiceJob() {
-    return GetBuilder<JobController>(builder: (_) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            '직종 선택',
-            style: headstyle,
-          ),
-          empty(),
-          SizedBox(
-            height: 50,
-            child: GridView.builder(
-              physics: const ScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 2 / 1,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-              ),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () {
-                      _.changejobIndex(index);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: _.jobindex == null
-                            ? null
-                            : _.jobindex == index
-                                ? Border.all(color: pointcolor, width: 2)
-                                : null,
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(_.typeofjob[index], style: pointstyle),
-                      ),
-                    ));
-              },
-              itemCount: _.typeofjob.length,
+    final _ = Get.find<JobController>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '직종 선택',
+          style: headstyle,
+        ),
+        empty(),
+        SizedBox(
+          height: 50,
+          child: GridView.builder(
+            physics: const ScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              childAspectRatio: 2 / 1,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
             ),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                  onTap: () {
+                    _.changejobIndex(index);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: _.jobindex == null
+                          ? null
+                          : _.jobindex == index
+                              ? Border.all(color: pointcolor, width: 2)
+                              : null,
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(_.typeofjob[index], style: pointstyle),
+                    ),
+                  ));
+            },
+            itemCount: _.typeofjob.length,
           ),
-        ],
-      );
-    });
+        ),
+        _.choicejobvalidate == false
+            ? const Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text(
+                  '직종을 선택 해주세요',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: pointcolor,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            : Container(),
+      ],
+    );
   }
 
   Widget choiceDay() {
-    return GetBuilder<JobController>(builder: (_) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            '근무 요일',
-            style: headstyle,
-          ),
-          empty(),
-          SizedBox(
-            height: 50,
-            child: GridView.builder(
-              physics: const ScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7,
-                childAspectRatio: 1 / 1,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-              ),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () {
-                      _.daySelected(index);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: _.dayselected[index] == false
-                            ? null
-                            : Border.all(color: pointcolor, width: 2),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(_.dayofWeek[index], style: pointstyle),
-                      ),
-                    ));
-              },
-              itemCount: _.dayofWeek.length,
+    final _ = Get.find<JobController>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '근무 요일',
+          style: headstyle,
+        ),
+        empty(),
+        SizedBox(
+          height: 50,
+          child: GridView.builder(
+            physics: const ScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+              childAspectRatio: 1 / 1,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
             ),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                  onTap: () {
+                    _.daySelected(index);
+                    _.selectedDay(index);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: _.dayselected[index] == false
+                          ? null
+                          : Border.all(color: pointcolor, width: 2),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(_.dayofWeek[index], style: pointstyle),
+                    ),
+                  ));
+            },
+            itemCount: _.dayofWeek.length,
           ),
-        ],
-      );
-    });
+        ),
+        _.dayselectedvalidate == false
+            ? const Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text(
+                  '근무 요일을 선택 해주세요',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: pointcolor,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            : Container(),
+      ],
+    );
   }
 
   Widget workTime(String name, String hinttext) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.circular(
             5,
           ),
         ),
         child: FormBuilderDateTimePicker(
-          format: DateFormat.Hm(),
+          validator: (val) {
+            return val == null ? "시간을 입력해주세요." : null;
+          },
+          format: DateFormat('aa hh:mm', 'ko'),
           transitionBuilder: (context, child) {
             return Theme(
               data: ThemeData.dark().copyWith(
@@ -259,10 +277,12 @@ class AddTaskPage extends StatelessWidget {
           name: name,
           style: headstyle,
           decoration: InputDecoration(
-            suffixIcon: const Icon(
-              CupertinoIcons.clock,
-              color: pointcolor,
-            ),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(5)),
+            errorStyle: pointstyle,
+            filled: true,
+            fillColor: Colors.white,
             border: InputBorder.none,
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -286,34 +306,35 @@ class AddTaskPage extends StatelessWidget {
           style: headstyle,
         ),
         empty(),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(
-              5,
-            ),
-          ),
-          child: FormBuilderDateTimePicker(
-            locale: const Locale('ko', 'KR'),
-            inputType: InputType.date,
-            format: DateFormat.yMMMEd('ko'),
-            name: 'firstday',
-            style: headstyle,
-            transitionBuilder: (context, child) {
-              return Theme(
-                data: ThemeData.dark().copyWith(
-                  colorScheme: const ColorScheme.light(
-                    primary: pointcolor,
-                    onPrimary: Colors.white,
-                    surface: Colors.white,
-                    onSurface: pointcolor,
-                  ),
-                  dialogBackgroundColor: Colors.white,
+        FormBuilderDateTimePicker(
+          validator: (val) {
+            return val == null ? "날짜를 입력해주세요" : null;
+          },
+          locale: const Locale('ko', 'KR'),
+          inputType: InputType.date,
+          format: DateFormat.yMMMEd('ko'),
+          name: 'firstday',
+          style: headstyle,
+          transitionBuilder: (context, child) {
+            return Theme(
+              data: ThemeData.dark().copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: pointcolor,
+                  onPrimary: Colors.white,
+                  surface: Colors.white,
+                  onSurface: pointcolor,
                 ),
-                child: child!,
-              );
-            },
-            decoration: InputDecoration(
+                dialogBackgroundColor: Colors.white,
+              ),
+              child: child!,
+            );
+          },
+          decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(5)),
+              filled: true,
+              fillColor: Colors.white,
               suffixIcon: const Icon(
                 Icons.calendar_today_rounded,
                 color: pointcolor,
@@ -323,19 +344,19 @@ class AddTaskPage extends StatelessWidget {
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               hoverColor: Colors.white,
-              hintText: '예) ${DateFormat.yMMMMd('ko').format(DateTime.now())}',
+              hintText: '예) ${DateFormat.yMMMEd('ko').format(DateTime.now())}',
               hintStyle: TextStyle(
                 color: Colors.black.withOpacity(0.2),
               ),
-            ),
-          ),
+              errorStyle: pointstyle),
         ),
         empty()
       ],
     );
   }
 
-  Widget textFormWidget(String name, String title, String hinttext) {
+  Widget textFormWidget(
+      String name, String title, String hinttext, String errortext) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -347,7 +368,7 @@ class AddTaskPage extends StatelessWidget {
         FormBuilderTextField(
           validator: FormBuilderValidators.compose([
             (val) {
-              return val == null || val.isEmpty ? "항목을 다 입력하지 않았어요" : null;
+              return val == null || val.isEmpty ? errortext : null;
             },
           ]),
           name: name,
@@ -355,6 +376,9 @@ class AddTaskPage extends StatelessWidget {
           cursorColor: Colors.black,
           style: headstyle,
           decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(5)),
             filled: true,
             fillColor: Colors.white,
             border: InputBorder.none,
@@ -377,7 +401,7 @@ class AddTaskPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '시급',
           style: headstyle,
         ),
@@ -394,6 +418,9 @@ class AddTaskPage extends StatelessWidget {
           cursorColor: Colors.black,
           style: headstyle,
           decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(5)),
             filled: true,
             fillColor: Colors.white,
             border: InputBorder.none,
