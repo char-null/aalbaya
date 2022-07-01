@@ -10,7 +10,17 @@ class JobController extends GetxController {
   bool dayselectedvalidate = true;
   List<String> dayofWeek = ['월', '화', '수', '목', '금', '토', '일'];
   List<bool> dayselected = [false, false, false, false, false, false, false];
-
+  List<Map<String, dynamic>> workday = [
+    {
+      "월": false,
+      "화": false,
+      "수": false,
+      "목": false,
+      "금": false,
+      "토": false,
+      "일": false
+    }
+  ];
   void changejobIndex(int index) {
     jobindex = index;
     update();
@@ -39,6 +49,19 @@ class JobController extends GetxController {
     dayselected.where((e) => e == false).length == 7
         ? dayselectedvalidate = false
         : dayselectedvalidate = true;
+
+    update();
+  }
+
+  void workDay() {
+    Iterable item = workday[0].keys.where((e) => workday[0][e] == true);
+    print(item.toList());
+  }
+
+  void selectedDay(int index) {
+    workday[0][dayofWeek[index]] == false
+        ? workday[0].update(dayofWeek[index], (value) => true)
+        : workday[0].update(dayofWeek[index], (value) => false);
     update();
   }
 }
