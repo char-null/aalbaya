@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:aalbaya/src/db/db.dart';
+import 'package:aalbaya/src/model/job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
@@ -21,6 +24,8 @@ class JobController extends GetxController {
       "일": false
     }
   ];
+  late String daylist;
+
   void changejobIndex(int index) {
     jobindex = index;
     update();
@@ -39,13 +44,6 @@ class JobController extends GetxController {
   }
 
   void dayselectedValidator() {
-    // var j = 0;
-    // for (var i = 0; i < dayselected.length; i++) {
-    //   if (dayselected[i] == true) {
-    //     j++;
-    //   }
-    // }
-    // j > 0 ? dayselectedvalidate = true : dayselectedvalidate = false;
     dayselected.where((e) => e == false).length == 7
         ? dayselectedvalidate = false
         : dayselectedvalidate = true;
@@ -55,7 +53,9 @@ class JobController extends GetxController {
 
   void workDay() {
     Iterable item = workday[0].keys.where((e) => workday[0][e] == true);
-    print(item.toList());
+    daylist = jsonEncode(item.toList());
+    update();
+    print(daylist);
   }
 
   void selectedDay(int index) {
@@ -63,5 +63,9 @@ class JobController extends GetxController {
         ? workday[0].update(dayofWeek[index], (value) => true)
         : workday[0].update(dayofWeek[index], (value) => false);
     update();
+  }
+
+  void addJob(Job job) {
+    DatabaseHelper.instance.addJob(job);
   }
 }
