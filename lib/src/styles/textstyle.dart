@@ -8,6 +8,6 @@ const subheadstyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
 const contentstyle = TextStyle(fontSize: 16, color: Colors.black);
 
 const contentpointstyle =
-    TextStyle(fontSize: 15, color: pointcolor, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 16, color: pointcolor, fontWeight: FontWeight.bold);
 
 const pointstyle = TextStyle(fontWeight: FontWeight.bold, color: pointcolor);
