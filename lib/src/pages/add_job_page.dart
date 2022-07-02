@@ -1,8 +1,10 @@
 import 'package:aalbaya/src/controller/jobcontroller.dart';
+import 'package:aalbaya/src/db/db.dart';
+import 'package:aalbaya/src/model/job.dart';
 import 'package:aalbaya/src/styles/colors.dart';
 import 'package:aalbaya/src/styles/textstyle.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
@@ -74,15 +76,24 @@ class AddTaskPage extends StatelessWidget {
                         // }
                         _.choicejobValidator();
                         _.dayselectedValidator();
-                        _.jobindex != null
-                            ? print(_.typeofjob[_.jobindex!])
-                            : null;
-                        _.workDay();
                         if (_.formkey.currentState!.validate() &&
-                            _.choicejobvalidate == true) {
+                            _.choicejobvalidate == true &&
+                            _.dayselectedvalidate == true) {
+                          _.workDay();
                           _.formkey.currentState!.save();
-
-                          Get.back();
+                          final data = Map<String, dynamic>.from(
+                              _.formkey.currentState!.value);
+                          print(data['firstday'].toString());
+                          await DatabaseHelper.instance.addJob(Job(
+                              jobtype: _.typeofjob[_.jobindex!],
+                              jobdetail: data['detail'],
+                              jobname: data['jobname'],
+                              hourlywage: int.parse((data['hourlywage'])),
+                              firstday: data['firstday'].toString(),
+                              workday: _.daylist,
+                              attendance: data['attendance'].toString(),
+                              closing: data['closing'].toString(),
+                              ing: 'true'));
                         }
                       },
                       child: Container(
@@ -246,6 +257,7 @@ class AddTaskPage extends StatelessWidget {
   }
 
   Widget workTime(String name, String hinttext) {
+    final _ = Get.find<JobController>();
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -407,6 +419,9 @@ class AddTaskPage extends StatelessWidget {
         ),
         empty(),
         FormBuilderTextField(
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ],
           keyboardType: TextInputType.number,
           validator: FormBuilderValidators.compose([
             (val) {
