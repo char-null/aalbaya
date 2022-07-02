@@ -2,14 +2,9 @@
 //
 //     final job = jobFromJson(jsonString);
 
-import 'dart:convert';
-
-Job jobFromJson(String str) => Job.fromMap(json.decode(str));
-
-String jobToJson(Job data) => json.encode(data.toMap());
-
 class Job {
   Job({
+    this.id,
     required this.jobtype,
     required this.jobdetail,
     required this.jobname,
@@ -21,35 +16,38 @@ class Job {
     required this.ing,
   });
 
+  int? id;
   String jobtype;
   String jobdetail;
   String jobname;
   int hourlywage;
   String firstday;
-  List<String> workday;
+  String workday;
   String attendance;
   String closing;
-  bool ing;
+  String ing;
 
   factory Job.fromMap(Map<String, dynamic> json) => Job(
+        id: json["id"],
         jobtype: json["jobtype"],
         jobdetail: json["jobdetail"],
         jobname: json["jobname"],
         hourlywage: json["hourlywage"],
         firstday: json["firstday"],
-        workday: List<String>.from(json["workday"].map((x) => x)),
+        workday: json["workday"],
         attendance: json["attendance"],
         closing: json["closing"],
         ing: json["ing"],
       );
 
   Map<String, dynamic> toMap() => {
+        "id": id,
         "jobtype": jobtype,
         "jobdetail": jobdetail,
         "jobname": jobname,
         "hourlywage": hourlywage,
         "firstday": firstday,
-        "workday": List<dynamic>.from(workday.map((x) => x)),
+        "workday": workday,
         "attendance": attendance,
         "closing": closing,
         "ing": ing,
