@@ -66,10 +66,9 @@ class DatabaseHelper {
         whereArgs: [DateFormat.yMMMMd('ko').format(day)]);
   }
 
-  Future<int> updateJob(Job job, DateTime day) async {
+  Future<int> updateJob(Job job, int index) async {
     Database db = await instance.database;
-    return await db.update('job', job.toMap(),
-        where: 'uploaddate=?',
-        whereArgs: [DateFormat.yMMMMd('ko').format(day)]);
+    return await db
+        .update('job', job.toMap(), where: 'id=?', whereArgs: [index]);
   }
 }
