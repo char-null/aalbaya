@@ -109,107 +109,115 @@ class ReportPage extends StatelessWidget {
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, index) {
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.8),
-                                          spreadRadius: 0.4,
-                                          blurRadius: 2,
-                                          offset: const Offset(0, 4),
-                                        )
-                                      ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              snapshot.data![index].jobname,
-                                              style: subheadstyle,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: const Text(
-                                                '그만두기',
-                                                style: pointstyle,
-                                              ),
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.8),
+                                              spreadRadius: 0.4,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 4),
                                             )
                                           ],
                                         ),
-                                        empty(),
-                                        RichText(
-                                          text: TextSpan(
-                                              text: '직종 : ',
-                                              style: contentstyle,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                TextSpan(
-                                                  text: snapshot
-                                                      .data![index].jobdetail,
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: pointcolor),
+                                                Text(
+                                                  snapshot.data![index].jobname,
+                                                  style: subheadstyle,
                                                 ),
-                                              ]),
+                                                GestureDetector(
+                                                  onTap: () {},
+                                                  child: const Text(
+                                                    '그만두기',
+                                                    style: pointstyle,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            empty(),
+                                            RichText(
+                                              text: TextSpan(
+                                                  text: '직종 : ',
+                                                  style: contentstyle,
+                                                  children: [
+                                                    TextSpan(
+                                                      text: snapshot
+                                                          .data![index]
+                                                          .jobdetail,
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: pointcolor),
+                                                    ),
+                                                  ]),
+                                            ),
+                                            RichText(
+                                              text: TextSpan(
+                                                  text: '시급 : ',
+                                                  style: contentstyle,
+                                                  children: [
+                                                    TextSpan(
+                                                      text:
+                                                          '${snapshot.data![index].hourlywage} 원',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: pointcolor),
+                                                    ),
+                                                  ]),
+                                            ),
+                                            RichText(
+                                              text: const TextSpan(
+                                                  text: '현재까지 총 근무시간 : ',
+                                                  style: contentstyle,
+                                                  children: [
+                                                    TextSpan(
+                                                      text: '800 시간',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: pointcolor),
+                                                    ),
+                                                  ]),
+                                            ),
+                                            RichText(
+                                              text: const TextSpan(
+                                                  text: '현재까지 총 수입 : ',
+                                                  style: contentstyle,
+                                                  children: [
+                                                    TextSpan(
+                                                      text: '8,000,000 원',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: pointcolor),
+                                                    ),
+                                                  ]),
+                                            ),
+                                          ],
                                         ),
-                                        RichText(
-                                          text: TextSpan(
-                                              text: '시급 : ',
-                                              style: contentstyle,
-                                              children: [
-                                                TextSpan(
-                                                  text:
-                                                      '${snapshot.data![index].hourlywage} 원',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: pointcolor),
-                                                ),
-                                              ]),
-                                        ),
-                                        RichText(
-                                          text: const TextSpan(
-                                              text: '현재까지 총 근무시간 : ',
-                                              style: contentstyle,
-                                              children: [
-                                                TextSpan(
-                                                  text: '800 시간',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: pointcolor),
-                                                ),
-                                              ]),
-                                        ),
-                                        RichText(
-                                          text: const TextSpan(
-                                              text: '현재까지 총 수입 : ',
-                                              style: contentstyle,
-                                              children: [
-                                                TextSpan(
-                                                  text: '8,000,000 원',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: pointcolor),
-                                                ),
-                                              ]),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      empty(),
+                                      empty()
+                                    ],
                                   );
                                 }),
-                            empty(),
-                            empty(),
                             const Text(
                               '지난 알바',
                               style: headstyle,
