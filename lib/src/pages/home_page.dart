@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'package:aalbaya/src/controller/jobcontroller.dart';
+import 'package:aalbaya/src/controller/viewcontroller.dart';
 import 'package:aalbaya/src/db/db.dart';
 import 'package:aalbaya/src/model/job.dart';
 import 'package:aalbaya/src/pages/add_job_page.dart';
 import 'package:aalbaya/src/pages/report_pagae.dart';
+import 'package:aalbaya/src/pages/test_page.dart';
 import 'package:aalbaya/src/styles/colors.dart';
 import 'package:aalbaya/src/styles/textstyle.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,6 +73,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget appBar() {
+    final _ = Get.put(ViewController());
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -88,6 +92,22 @@ class HomePage extends StatelessWidget {
                 Get.to(() => const ReportPage());
               },
               child: const Icon(CupertinoIcons.doc_text),
+            ),
+            GestureDetector(
+              onTap: () async {
+                await _.jobData();
+                print(_.jobdata![0].attendance);
+              },
+              child: const Icon(Icons.refresh),
+            ),
+            GestureDetector(
+              onTap: () async {
+                await _.jobData();
+                _.ingType();
+                print(_.ongoingjob);
+                Get.to(() => const TestPage());
+              },
+              child: const Icon(Icons.e_mobiledata),
             ),
           ],
         ),
