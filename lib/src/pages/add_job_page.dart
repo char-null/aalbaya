@@ -70,10 +70,6 @@ class AddTaskPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () async {
-                        // for (var i = 0; i < _.dayselected.length; i++) {
-                        //   // ignore: avoid_print
-                        //   _.dayselected[i] == true ? print(i) : null;
-                        // }
                         _.choicejobValidator();
                         _.dayselectedValidator();
                         if (_.formkey.currentState!.validate() &&
@@ -83,7 +79,6 @@ class AddTaskPage extends StatelessWidget {
                           _.formkey.currentState!.save();
                           final data = Map<String, dynamic>.from(
                               _.formkey.currentState!.value);
-                          print(data['firstday'].toString());
                           await DatabaseHelper.instance.addJob(Job(
                               jobtype: _.typeofjob[_.jobindex!],
                               jobdetail: data['detail'],
