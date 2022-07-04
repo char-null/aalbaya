@@ -15,6 +15,7 @@ class AddTaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _formkey = GlobalKey<FormBuilderState>();
     final _ = Get.put(JobController());
     return GestureDetector(
       onTap: () {
@@ -40,7 +41,7 @@ class AddTaskPage extends StatelessWidget {
                 horizontal: 18.0,
               ),
               child: FormBuilder(
-                key: _.formkey,
+                key: _formkey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -72,13 +73,13 @@ class AddTaskPage extends StatelessWidget {
                       onTap: () async {
                         _.choicejobValidator();
                         _.dayselectedValidator();
-                        if (_.formkey.currentState!.validate() &&
+                        if (_formkey.currentState!.validate() &&
                             _.choicejobvalidate == true &&
                             _.dayselectedvalidate == true) {
                           _.workDay();
-                          _.formkey.currentState!.save();
+                          _formkey.currentState!.save();
                           final data = Map<String, dynamic>.from(
-                              _.formkey.currentState!.value);
+                              _formkey.currentState!.value);
                           await DatabaseHelper.instance.addJob(Job(
                               jobtype: _.typeofjob[_.jobindex!],
                               jobdetail: data['detail'],
