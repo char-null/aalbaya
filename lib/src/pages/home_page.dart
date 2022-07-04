@@ -96,15 +96,7 @@ class HomePage extends StatelessWidget {
             GestureDetector(
               onTap: () async {
                 await _.jobData();
-                print(_.jobdata![0].attendance);
-              },
-              child: const Icon(Icons.refresh),
-            ),
-            GestureDetector(
-              onTap: () async {
-                await _.jobData();
-                _.ingType();
-                print(_.ongoingjob);
+
                 Get.to(() => const TestPage());
               },
               child: const Icon(Icons.e_mobiledata),
