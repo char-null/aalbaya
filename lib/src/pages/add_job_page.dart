@@ -1,4 +1,5 @@
 import 'package:aalbaya/src/controller/jobcontroller.dart';
+import 'package:aalbaya/src/controller/viewcontroller.dart';
 import 'package:aalbaya/src/db/db.dart';
 import 'package:aalbaya/src/model/job.dart';
 import 'package:aalbaya/src/styles/colors.dart';
@@ -17,116 +18,126 @@ class AddTaskPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormBuilderState>();
     final _ = Get.put(JobController());
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: GetBuilder<JobController>(builder: (_) {
-        return Scaffold(
+    final viewController = Get.put(ViewController());
+    return GetBuilder<JobController>(builder: (_) {
+      return Scaffold(
+        backgroundColor: backgroundcolor,
+        appBar: AppBar(
           backgroundColor: backgroundcolor,
-          appBar: AppBar(
-            backgroundColor: backgroundcolor,
-            elevation: 0.0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded),
-              color: Colors.black,
-              onPressed: () {
-                Get.back();
-              },
-            ),
+          elevation: 0.0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            color: Colors.black,
+            onPressed: () {
+              Get.back();
+            },
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 18.0,
-              ),
-              child: FormBuilder(
-                key: _formkey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    choiceJob(),
-                    textFormWidget('detail', '세부 직종', '예) 카페', '세부 직종을 입력해주세요'),
-                    textFormWidget(
-                        'jobname', '직장 이름', '예) 스타벅스', '직장 이름을 입력해주세요'),
-                    hourlyWage(),
-                    firstDay(),
-                    choiceDay(),
-                    const Text(
-                      '근무 시간',
-                      style: headstyle,
-                    ),
-                    empty(),
-                    Row(
-                      children: [
-                        workTime('attendance', '출근 시간'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        workTime('closing', '퇴근 시간'),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        _.choicejobValidator();
-                        _.dayselectedValidator();
-                        if (_formkey.currentState!.validate() &&
-                            _.choicejobvalidate == true &&
-                            _.dayselectedvalidate == true) {
-                          _.workDay();
-                          _formkey.currentState!.save();
-                          final data = Map<String, dynamic>.from(
-                              _formkey.currentState!.value);
-                          await DatabaseHelper.instance.addJob(Job(
-                              jobtype: _.typeofjob[_.jobindex!],
-                              jobdetail: data['detail'],
-                              jobname: data['jobname'],
-                              hourlywage: int.parse((data['hourlywage'])),
-                              firstday: data['firstday'].toString(),
-                              workday: _.daylist,
-                              attendance: data['attendance'].toString(),
-                              closing: data['closing'].toString(),
-                              ing: 'true'));
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.white,
-                        ),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                '작성 완료',
-                                style: TextStyle(
-                                    color: pointcolor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Icon(
-                                Icons.check_rounded,
-                                color: pointcolor,
-                              ),
-                            ],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 18.0,
+            ),
+            child: FormBuilder(
+              key: _formkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  choiceJob(),
+                  textFormWidget('detail', '세부 직종', '예) 카페', '세부 직종을 입력해주세요'),
+                  textFormWidget(
+                      'jobname', '직장 이름', '예) 스타벅스', '직장 이름을 입력해주세요'),
+                  hourlyWage(),
+                  firstDay(),
+                  choiceDay(),
+                  const Text(
+                    '근무 시간',
+                    style: headstyle,
+                  ),
+                  empty(),
+                  Row(
+                    children: [
+                      workTime('attendance', '출근 시간'),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      workTime('closing', '퇴근 시간'),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      _.choicejobValidator();
+                      _.dayselectedValidator();
+                      if (_formkey.currentState!.validate() &&
+                          _.choicejobvalidate == true &&
+                          _.dayselectedvalidate == true) {
+                        _.workDay();
+                        _formkey.currentState!.save();
+                        final data = Map<String, dynamic>.from(
+                            _formkey.currentState!.value);
+                        await DatabaseHelper.instance.addJob(Job(
+                            jobtype: _.typeofjob[_.jobindex!],
+                            jobdetail: data['detail'],
+                            jobname: data['jobname'],
+                            hourlywage: int.parse((data['hourlywage'])),
+                            firstday: data['firstday'].toString(),
+                            workday: _.daylist,
+                            attendance: data['attendance'].toString(),
+                            closing: data['closing'].toString(),
+                            closeday: null,
+                            totalday: null,
+                            ing: 'true'));
+                        await viewController.jobData();
+                        Get.back();
+                        Get.snackbar(
+                          '추가 완료',
+                          '알바를 등록했어요',
+                          snackPosition: SnackPosition.BOTTOM,
+                          icon: const Icon(
+                            Icons.check,
+                            color: pointcolor,
                           ),
+                          duration: const Duration(milliseconds: 1000),
+                        );
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              '작성 완료',
+                              style: TextStyle(
+                                  color: pointcolor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Icon(
+                              Icons.check_rounded,
+                              color: pointcolor,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 
   SizedBox empty() {
