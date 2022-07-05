@@ -32,6 +32,8 @@ class DatabaseHelper {
         workday TEXT,
         attendance TEXT,
         closing TEXT,
+        closeday TEXT,
+        totalday INTEGER,
         ing TEXT
         )''');
   }
@@ -67,6 +69,12 @@ class DatabaseHelper {
   }
 
   Future<int> updateJob(Job job, int index) async {
+    Database db = await instance.database;
+    return await db
+        .update('job', job.toMap(), where: 'id=?', whereArgs: [index]);
+  }
+
+  Future<int> updatecloseJob(Job job, int? index) async {
     Database db = await instance.database;
     return await db
         .update('job', job.toMap(), where: 'id=?', whereArgs: [index]);
