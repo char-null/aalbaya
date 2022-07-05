@@ -13,6 +13,8 @@ class Job {
     required this.workday,
     required this.attendance,
     required this.closing,
+    this.closeday,
+    this.totalday,
     required this.ing,
   });
 
@@ -25,6 +27,8 @@ class Job {
   String workday;
   String attendance;
   String closing;
+  String? closeday;
+  int? totalday;
   String ing;
 
   factory Job.fromMap(Map<String, dynamic> json) => Job(
@@ -37,6 +41,8 @@ class Job {
         workday: json["workday"],
         attendance: json["attendance"],
         closing: json["closing"],
+        closeday: json["closeday"],
+        totalday: json["totalday"],
         ing: json["ing"],
       );
 
@@ -50,6 +56,8 @@ class Job {
         "workday": workday,
         "attendance": attendance,
         "closing": closing,
+        "closeday": closeday,
+        "totalday": totalday,
         "ing": ing,
       };
 }
