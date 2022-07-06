@@ -39,38 +39,7 @@ class TestPage extends StatelessWidget {
                 onGoingJob(_),
                 empty(),
                 lastJob(_),
-                empty(),
-                empty(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      '통계',
-                      style: headstyle,
-                    ),
-                    empty(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.8),
-                            spreadRadius: 0.4,
-                            blurRadius: 2,
-                            offset: const Offset(0, 4),
-                          )
-                        ],
-                      ),
-                      child: Text(
-                        '지금까지 총 ${_.jobdata!.length}개의 직장에서 ',
-                        style: contentstyle,
-                      ),
-                    ),
-                  ],
-                )
+                report(_),
               ],
             );
           }),
@@ -85,7 +54,61 @@ class TestPage extends StatelessWidget {
     );
   }
 
+  Widget report(ViewController _) {
+    final formatCurrency = NumberFormat.simpleCurrency(
+        locale: "ko_KR", name: "", decimalDigits: 0);
+    int alltotalwage = 0;
+    int alltotalday = 0;
+    for (var i = 0; i < _.lastjob!.length; i++) {
+      alltotalwage += _.lastjob![i].totalwage!;
+      alltotalday += _.lastjob![i].totalday!;
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          '통계',
+          style: headstyle,
+        ),
+        empty(),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.8),
+                spreadRadius: 0.4,
+                blurRadius: 2,
+                offset: const Offset(0, 4),
+              )
+            ],
+          ),
+          child: RichText(
+            text:
+                TextSpan(text: '대단해요! 지금까지 총 ', style: contentstyle, children: [
+              TextSpan(
+                text: '${_.lastjob!.length}개',
+                style: contentpointstyle,
+              ),
+              TextSpan(text: '의 직장에서 '),
+              TextSpan(text: '${alltotalday}일', style: contentpointstyle),
+              TextSpan(text: '간 일했고, '),
+              TextSpan(
+                  text: '${formatCurrency.format(alltotalwage)} 원',
+                  style: contentpointstyle),
+              TextSpan(text: ' 벌었어요!')
+            ]),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget lastJob(ViewController _) {
+    final formatCurrency = NumberFormat.simpleCurrency(
+        locale: "ko_KR", name: "", decimalDigits: 0);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -127,7 +150,7 @@ class TestPage extends StatelessWidget {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
+                            horizontal: 10, vertical: 15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
@@ -157,7 +180,7 @@ class TestPage extends StatelessWidget {
                               style: contentstyle,
                             ),
                             Text(
-                              '시급 : ${_.lastjob![index].hourlywage}',
+                              '시급 : ${formatCurrency.format(_.lastjob![index].hourlywage)} 원',
                               style: contentstyle,
                             ),
                             Text(
@@ -165,10 +188,9 @@ class TestPage extends StatelessWidget {
                               style: contentstyle,
                             ),
                             Text(
-                              '실제 근무일수 : ${_.lastjob![index].totalday}일',
+                              '총 수입 : ${formatCurrency.format(_.lastjob![index].totalwage)} 원',
                               style: contentstyle,
-                            ),
-                            Text('근무 요일 : ${_.lastjob![index].workday}')
+                            )
                           ],
                         ),
                       ),
@@ -299,57 +321,66 @@ class TestPage extends StatelessWidget {
                                                       jsonDecode(_
                                                           .ongoingjob![index]
                                                           .workday),
-                                                      total.inDays);
-                                                  await DatabaseHelper.instance
-                                                      .updatecloseJob(
-                                                          Job(
-                                                              id: _
+                                                      total.inDays,
+                                                      DateTime.parse(_
+                                                          .ongoingjob![index]
+                                                          .firstday));
+                                                  await DatabaseHelper.instance.updatecloseJob(
+                                                      Job(
+                                                          id: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .id,
+                                                          jobtype: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .jobtype,
+                                                          jobdetail: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .jobdetail,
+                                                          jobname: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .jobname,
+                                                          hourlywage: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .hourlywage,
+                                                          firstday: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .firstday,
+                                                          workday: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .workday,
+                                                          attendance: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .attendance,
+                                                          closing: _
+                                                              .ongoingjob![
+                                                                  index]
+                                                              .closing,
+                                                          closeday: _
+                                                              .formKey
+                                                              .currentState!
+                                                              .value['closeday']
+                                                              .toString(),
+                                                          totalday: _.totalday,
+                                                          totalwage: _.totalday *
+                                                              _
                                                                   .ongoingjob![
                                                                       index]
-                                                                  .id,
-                                                              jobtype: _
-                                                                  .ongoingjob![
-                                                                      index]
-                                                                  .jobtype,
-                                                              jobdetail: _
-                                                                  .ongoingjob![
-                                                                      index]
-                                                                  .jobdetail,
-                                                              jobname: _
-                                                                  .ongoingjob![
-                                                                      index]
-                                                                  .jobname,
-                                                              hourlywage: _
-                                                                  .ongoingjob![
-                                                                      index]
-                                                                  .hourlywage,
-                                                              firstday: _
-                                                                  .ongoingjob![
-                                                                      index]
-                                                                  .firstday,
-                                                              workday: _
-                                                                  .ongoingjob![
-                                                                      index]
-                                                                  .workday,
-                                                              attendance: _
-                                                                  .ongoingjob![
-                                                                      index]
-                                                                  .attendance,
-                                                              closing: _
-                                                                  .ongoingjob![
-                                                                      index]
-                                                                  .closing,
-                                                              closeday: _
-                                                                  .formKey
-                                                                  .currentState!
-                                                                  .value[
-                                                                      'closeday']
-                                                                  .toString(),
-                                                              totalday:
-                                                                  _.totalday,
-                                                              ing: 'false'),
-                                                          _.ongoingjob![index]
-                                                              .id);
+                                                                  .hourlywage *
+                                                              DateTime.parse(_
+                                                                      .ongoingjob![index]
+                                                                      .closing)
+                                                                  .difference(DateTime.parse(_.ongoingjob![index].attendance))
+                                                                  .inHours,
+                                                          ing: 'false'),
+                                                      _.ongoingjob![index].id);
                                                   _.jobData();
                                                   Get.back();
                                                   Get.snackbar(
