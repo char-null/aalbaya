@@ -34,6 +34,7 @@ class DatabaseHelper {
         closing TEXT,
         closeday TEXT,
         totalday INTEGER,
+        totalwage INTEGER,
         ing TEXT
         )''');
   }
