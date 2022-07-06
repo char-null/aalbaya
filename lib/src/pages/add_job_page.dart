@@ -89,6 +89,7 @@ class AddTaskPage extends StatelessWidget {
                             closing: data['closing'].toString(),
                             closeday: null,
                             totalday: null,
+                            totalwage: null,
                             ing: 'true'));
                         await viewController.jobData();
                         Get.back();
