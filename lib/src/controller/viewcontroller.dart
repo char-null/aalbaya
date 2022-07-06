@@ -19,7 +19,7 @@ class ViewController extends GetxController {
     update();
   }
 
-  void totalDay(List workday, int differenceday) {
+  void totalDay(List workday, int differenceday, DateTime firstday) {
     for (var e in workday) {
       switch (e) {
         case '월':
@@ -46,7 +46,7 @@ class ViewController extends GetxController {
       }
     }
     for (var i = 0; i <= differenceday; i++) {
-      var date = DateTime.now().add(Duration(days: i));
+      var date = firstday.add(Duration(days: i));
       for (var j = 0; j < workingday.length; j++) {
         if (date.weekday == workingday[j]) {
           totalday++;
