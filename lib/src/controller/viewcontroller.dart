@@ -12,6 +12,12 @@ class ViewController extends GetxController {
   late List workingday = [];
   int totalday = 0;
 
+  @override
+  void onInit() async {
+    super.onInit();
+    await jobData();
+  }
+
   Future<void> jobData() async {
     jobdata = await DatabaseHelper.instance.getJob();
     ongoingjob = jobdata!.where((e) => e.ing == 'true').toList();
