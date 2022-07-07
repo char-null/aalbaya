@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:aalbaya/src/controller/jobcontroller.dart';
 import 'package:aalbaya/src/controller/viewcontroller.dart';
 import 'package:aalbaya/src/db/db.dart';
 import 'package:aalbaya/src/model/job.dart';
@@ -18,6 +17,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _ = Get.put(ViewController());
     return Scaffold(
       backgroundColor: backgroundcolor,
       body: SingleChildScrollView(
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
                             children: [
                               appBar(),
                               empty(),
-                              todayJob(context, snapshot),
+                              todayJob(_),
                               empty(),
                               todayInfo(context, '오늘 할일', []),
                               empty(),
@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget todayJob(BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
+  Widget todayJob(ViewController _) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
@@ -122,7 +122,6 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      width: MediaQuery.of(context).size.width * 0.95,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -131,44 +130,54 @@ class HomePage extends StatelessWidget {
             style: headstyle,
           ),
           empty(),
-          ListView.builder(
-            physics: const ScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              List<dynamic> list = jsonDecode(snapshot.data![index].workday);
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            left: BorderSide(
-                              width: 3,
-                              color: pointcolor,
-                            ),
-                          ),
-                        ),
-                        child: list.contains(DateFormat.E('ko')
-                                    .format(DateTime.now())) ==
-                                true
-                            ? Text(
-                                ' ${snapshot.data![index].jobname} ${DateFormat('HH:mm', 'ko').format((DateTime.parse(snapshot.data![index].attendance)))} ~ ${DateFormat('HH:mm', 'ko').format((DateTime.parse(snapshot.data![index].closing)))}',
-                                style: contentstyle,
+          _.ongoingjob!.isEmpty
+              ? Center(
+                  child: Text('등록된 알바가 없어요!'),
+                )
+              : ListView.builder(
+                  physics: const ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: _.ongoingjob!.length,
+                  itemBuilder: (context, index) {
+                    int i = 1;
+                    List<dynamic> list =
+                        jsonDecode(_.ongoingjob![index].workday);
+                    for (index; index < _.ongoingjob!.length; index++) {
+                      if (list.contains(
+                              DateFormat.E('ko').format(DateTime.now())) ==
+                          true) i++;
+                    }
+                    return _.ongoingjob!.length != i
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        left: BorderSide(
+                                          width: 3,
+                                          color: pointcolor,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      ' ${_.ongoingjob![index].jobname} ${DateFormat('HH:mm', 'ko').format((DateTime.parse(_.ongoingjob![index].attendance)))} ~ ${DateFormat('HH:mm', 'ko').format((DateTime.parse(_.ongoingjob![index].closing)))}',
+                                      style: contentstyle,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
                               )
-                            : Text(' 오늘은 휴일입니다 푹 쉬세요!'),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  )
-                ],
-              );
-            },
-          ),
+                            ],
+                          )
+                        : Container(
+                            child: Text(' 오늘은 휴일입니다 푹 쉬세요!'),
+                          );
+                  }),
         ],
       ),
     );
