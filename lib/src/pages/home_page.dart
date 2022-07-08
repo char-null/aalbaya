@@ -140,12 +140,11 @@ class HomePage extends StatelessWidget {
                   itemCount: _.ongoingjob!.length,
                   itemBuilder: (context, index) {
                     int i = 1;
-                    List<dynamic> list =
-                        jsonDecode(_.ongoingjob![index].workday);
+                    Iterable list = jsonDecode(_.ongoingjob![index].workday);
                     for (index; index < _.ongoingjob!.length; index++) {
                       if (list.contains(
                               DateFormat.E('ko').format(DateTime.now())) ==
-                          true) i++;
+                          false) i++;
                     }
                     return _.ongoingjob!.length != i
                         ? Column(
