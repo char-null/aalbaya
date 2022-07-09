@@ -418,6 +418,8 @@ class AddTaskPage extends StatelessWidget {
   }
 
   Widget hourlyWage() {
+    final formatCurrency = NumberFormat.simpleCurrency(
+        locale: "ko_KR", name: "", decimalDigits: 0);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -451,7 +453,7 @@ class AddTaskPage extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             hoverColor: Colors.white,
-            hintText: '예) 9160',
+            hintText: '예) ${formatCurrency.format(9160)}',
             hintStyle: TextStyle(
               color: Colors.black.withOpacity(0.2),
             ),
