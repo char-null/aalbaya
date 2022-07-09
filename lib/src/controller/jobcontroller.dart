@@ -54,7 +54,6 @@ class JobController extends GetxController {
     Iterable item = workday[0].keys.where((e) => workday[0][e] == true);
     daylist = jsonEncode(item.toList());
     update();
-    print(daylist);
   }
 
   void selectedDay(int index) {
