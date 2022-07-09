@@ -9,8 +9,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class TestPage extends StatelessWidget {
-  const TestPage({Key? key}) : super(key: key);
+class ReportPage extends StatelessWidget {
+  const ReportPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +39,7 @@ class TestPage extends StatelessWidget {
                 onGoingJob(_),
                 empty(),
                 lastJob(_),
+                empty(),
                 report(_),
               ],
             );
@@ -71,37 +72,64 @@ class TestPage extends StatelessWidget {
           style: headstyle,
         ),
         empty(),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.8),
-                spreadRadius: 0.4,
-                blurRadius: 2,
-                offset: const Offset(0, 4),
+        _.lastjob!.isNotEmpty
+            ? Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.8),
+                      spreadRadius: 0.4,
+                      blurRadius: 2,
+                      offset: const Offset(0, 4),
+                    )
+                  ],
+                ),
+                child: RichText(
+                  text: TextSpan(
+                      text: '대단해요! 지금까지 총 ',
+                      style: contentstyle,
+                      children: [
+                        TextSpan(
+                          text: '${_.lastjob!.length}개',
+                          style: contentpointstyle,
+                        ),
+                        TextSpan(text: '의 직장에서 '),
+                        TextSpan(
+                            text: '${alltotalday}일', style: contentpointstyle),
+                        TextSpan(text: '간 일했고, '),
+                        TextSpan(
+                            text: '${formatCurrency.format(alltotalwage)} 원',
+                            style: contentpointstyle),
+                        TextSpan(text: ' 벌었어요!')
+                      ]),
+                ),
               )
-            ],
-          ),
-          child: RichText(
-            text:
-                TextSpan(text: '대단해요! 지금까지 총 ', style: contentstyle, children: [
-              TextSpan(
-                text: '${_.lastjob!.length}개',
-                style: contentpointstyle,
-              ),
-              TextSpan(text: '의 직장에서 '),
-              TextSpan(text: '${alltotalday}일', style: contentpointstyle),
-              TextSpan(text: '간 일했고, '),
-              TextSpan(
-                  text: '${formatCurrency.format(alltotalwage)} 원',
-                  style: contentpointstyle),
-              TextSpan(text: ' 벌었어요!')
-            ]),
-          ),
-        ),
+            : Container(
+                height: 150,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.8),
+                      spreadRadius: 0.4,
+                      blurRadius: 2,
+                      offset: const Offset(0, 4),
+                    )
+                  ],
+                ),
+                child: Center(
+                    child: Text(
+                  '통계가 존재하지 않아요!',
+                  style: contentpointstyle,
+                )),
+              )
       ],
     );
   }
@@ -119,7 +147,7 @@ class TestPage extends StatelessWidget {
         empty(),
         _.lastjob!.isEmpty
             ? Container(
-                height: 100,
+                height: 150,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 decoration: BoxDecoration(
@@ -252,16 +280,19 @@ class TestPage extends StatelessWidget {
                                   onTap: () {
                                     Get.dialog(
                                       AlertDialog(
-                                        title: const Text(
-                                          '그만두기',
-                                          style: const TextStyle(),
-                                        ),
+                                        backgroundColor: backgroundcolor,
                                         content: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            const Text('그만두는 날짜'),
+                                            const Text(
+                                              '그만두는 날짜',
+                                              style: pointstyle,
+                                            ),
+                                            SizedBox(
+                                              height: 15,
+                                            ),
                                             FormBuilder(
                                               key: _.formKey,
                                               child: FormBuilderDateTimePicker(
@@ -275,6 +306,12 @@ class TestPage extends StatelessWidget {
                                                 inputType: InputType.date,
                                                 name: 'closeday',
                                                 decoration: InputDecoration(
+                                                  fillColor: Colors.white,
+                                                  filled: true,
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none),
                                                   hintText: DateFormat(
                                                           'yy-MM-dd', 'ko')
                                                       .format(
@@ -432,16 +469,11 @@ class TestPage extends StatelessWidget {
                                     '$e ',
                                     style: contentstyle,
                                   ),
-                                Text(
-                                  '(주 ${daylist.length}일)',
-                                  style: contentstyle,
-                                )
                               ],
                             ),
                           ],
                         ),
                       ),
-                      empty(),
                       empty(),
                     ],
                   );
