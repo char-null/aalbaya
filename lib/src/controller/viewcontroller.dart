@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:aalbaya/src/db/db.dart';
 import 'package:aalbaya/src/model/job.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ViewController extends GetxController {
   late List<Job>? jobdata;
@@ -10,7 +13,12 @@ class ViewController extends GetxController {
   late List<Job>? lastjob;
   final formKey = GlobalKey<FormBuilderState>();
   late List workingday = [];
+  late List<Job>? todaylist = [];
   int totalday = 0;
+  List manual = [];
+  int manualindex = 1;
+  int? todaylistindex;
+  bool todaylistvalidate = true;
 
   @override
   void onInit() async {
@@ -22,6 +30,38 @@ class ViewController extends GetxController {
     jobdata = await DatabaseHelper.instance.getJob();
     ongoingjob = jobdata!.where((e) => e.ing == 'true').toList();
     lastjob = jobdata!.where((e) => e.ing == 'false').toList();
+    todaylist = ongoingjob!.where((e) {
+      List test = jsonDecode(e.workday);
+      return test.contains(DateFormat.E('ko').format(DateTime.now()));
+    }).toList();
+    update();
+  }
+
+  void todaylistDecode(int index) {
+    manual = jsonDecode(todaylist![index].manual!);
+    update();
+  }
+
+  void addMaunal() {
+    manualindex++;
+    print(manualindex);
+    update();
+  }
+
+  void todaylistValdator() {
+    todaylistindex == null
+        ? todaylistvalidate = false
+        : todaylistvalidate = true;
+    update();
+  }
+
+  void deleteManual(String name) {
+    manualindex--;
+    update();
+  }
+
+  void todayListSelected(int index) {
+    todaylistindex = index;
     update();
   }
 
