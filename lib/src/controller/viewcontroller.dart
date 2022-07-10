@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:aalbaya/src/db/db.dart';
 import 'package:aalbaya/src/model/job.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +8,8 @@ import 'package:intl/intl.dart';
 
 class ViewController extends GetxController {
   late List<Job>? jobdata;
-  late List<Job>? ongoingjob;
-  late List<Job>? lastjob;
+  List<Job>? ongoingjob;
+  List<Job>? lastjob;
   final formKey = GlobalKey<FormBuilderState>();
   late List workingday = [];
   late List<Job>? todaylist = [];
@@ -44,7 +43,7 @@ class ViewController extends GetxController {
 
   void addMaunal() {
     manualindex++;
-    print(manualindex);
+
     update();
   }
 
