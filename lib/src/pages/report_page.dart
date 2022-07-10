@@ -16,9 +16,9 @@ class ReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _ = Get.put(ViewController());
     return Scaffold(
-      backgroundColor: backgroundcolor,
+      backgroundColor: const Color(0xfff3f4f6),
       appBar: AppBar(
-        backgroundColor: backgroundcolor,
+        backgroundColor: const Color(0xfff3f4f6),
         leading: IconButton(
             onPressed: () {
               Get.back();
@@ -31,15 +31,15 @@ class ReportPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+          padding: EdgeInsets.symmetric(
+            horizontal: width * 0.08,
+          ),
           child: GetBuilder<ViewController>(builder: (_) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 onGoingJob(_),
-                empty(),
                 lastJob(_),
-                empty(),
                 report(_),
               ],
             );
@@ -50,8 +50,14 @@ class ReportPage extends StatelessWidget {
   }
 
   SizedBox empty() {
-    return const SizedBox(
-      height: 10,
+    return SizedBox(
+      height: height * 0.03,
+    );
+  }
+
+  SizedBox empty2() {
+    return SizedBox(
+      height: height * 0.05,
     );
   }
 
@@ -97,19 +103,19 @@ class ReportPage extends StatelessWidget {
                           text: '${_.lastjob!.length}개',
                           style: contentpointstyle,
                         ),
-                        TextSpan(text: '의 직장에서 '),
+                        const TextSpan(text: '의 직장에서 '),
                         TextSpan(
-                            text: '${alltotalday}일', style: contentpointstyle),
-                        TextSpan(text: '간 일했고, '),
+                            text: '$alltotalday일', style: contentpointstyle),
+                        const TextSpan(text: '간 일했고, '),
                         TextSpan(
                             text: '${formatCurrency.format(alltotalwage)} 원',
                             style: contentpointstyle),
-                        TextSpan(text: ' 벌었어요!')
+                        const TextSpan(text: ' 벌었어요!')
                       ]),
                 ),
               )
             : Container(
-                height: 150,
+                height: height * 0.4,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 decoration: BoxDecoration(
@@ -140,33 +146,38 @@ class ReportPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
+        Text(
           '지난 알바',
           style: headstyle,
         ),
         empty(),
         _.lastjob!.isEmpty
-            ? Container(
-                height: 150,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.8),
-                      spreadRadius: 0.4,
-                      blurRadius: 2,
-                      offset: const Offset(0, 4),
-                    )
-                  ],
-                ),
-                child: const Center(
-                    child: Text(
-                  '아직 지난 알바가 없어요!',
-                  style: contentpointstyle,
-                )),
+            ? Column(
+                children: [
+                  Container(
+                    height: height * 0.4,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          spreadRadius: 0.4,
+                          blurRadius: 2,
+                          offset: const Offset(0, 4),
+                        )
+                      ],
+                    ),
+                    child: Center(
+                        child: Text(
+                      '아직 지난 알바가 없어요!',
+                      style: contentpointstyle,
+                    )),
+                  ),
+                  empty2()
+                ],
               )
             : ListView.builder(
                 itemCount: _.lastjob!.length,
@@ -196,7 +207,7 @@ class ReportPage extends StatelessWidget {
                           children: [
                             Text(
                               _.lastjob![index].jobname,
-                              style: headstyle,
+                              style: subheadstyle,
                             ),
                             empty(),
                             Text(
@@ -222,8 +233,7 @@ class ReportPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      empty(),
-                      empty(),
+                      empty2()
                     ],
                   );
                 }),
@@ -232,10 +242,12 @@ class ReportPage extends StatelessWidget {
   }
 
   Widget onGoingJob(ViewController _) {
+    final formatCurrency = NumberFormat.simpleCurrency(
+        locale: "ko_KR", name: "", decimalDigits: 0);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '진행중인 알바',
           style: headstyle,
         ),
@@ -274,24 +286,23 @@ class ReportPage extends StatelessWidget {
                               children: [
                                 Text(
                                   _.ongoingjob![index].jobname,
-                                  style: headstyle,
+                                  style: subheadstyle,
                                 ),
                                 GestureDetector(
                                   onTap: () {
                                     Get.dialog(
                                       AlertDialog(
-                                        backgroundColor: backgroundcolor,
+                                        backgroundColor:
+                                            const Color(0xfff3f4f6),
                                         content: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            const Text(
-                                              '그만두는 날짜',
-                                              style: pointstyle,
-                                            ),
+                                            Text('그만두는 날짜',
+                                                style: subheadstyle),
                                             SizedBox(
-                                              height: 15,
+                                              height: height * 0.02,
                                             ),
                                             FormBuilder(
                                               key: _.formKey,
@@ -305,23 +316,29 @@ class ReportPage extends StatelessWidget {
                                                     'yy-MM-dd', 'ko'),
                                                 inputType: InputType.date,
                                                 name: 'closeday',
+                                                style: formbuilderstyle,
                                                 decoration: InputDecoration(
-                                                  fillColor: Colors.white,
-                                                  filled: true,
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide.none),
-                                                  hintText: DateFormat(
-                                                          'yy-MM-dd', 'ko')
-                                                      .format(
-                                                    DateTime.now(),
-                                                  ),
-                                                  hintStyle: TextStyle(
-                                                    color: Colors.black
-                                                        .withOpacity(0.3),
-                                                  ),
-                                                ),
+                                                    errorBorder:
+                                                        const OutlineInputBorder(
+                                                            borderSide: BorderSide(
+                                                                width: 2,
+                                                                color:
+                                                                    pointcolor)),
+                                                    fillColor: Colors.white,
+                                                    filled: true,
+                                                    errorStyle: pointstyle,
+                                                    enabledBorder:
+                                                        const OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide
+                                                                    .none),
+                                                    hintText: DateFormat(
+                                                            'yy-MM-dd', 'ko')
+                                                        .format(
+                                                      DateTime.now(),
+                                                    ),
+                                                    hintStyle:
+                                                        formbuilderhintstyle),
                                               ),
                                             ),
                                           ],
@@ -334,7 +351,7 @@ class ReportPage extends StatelessWidget {
                                               onTap: () {
                                                 Get.back();
                                               },
-                                              child: const Text(
+                                              child: Text(
                                                 '취소',
                                                 style: contentpointstyle,
                                               )),
@@ -425,16 +442,16 @@ class ReportPage extends StatelessWidget {
                                                     '알바를 그만두었어요!',
                                                     snackPosition:
                                                         SnackPosition.BOTTOM,
-                                                    icon: Icon(
+                                                    icon: const Icon(
                                                       Icons.check,
                                                       color: pointcolor,
                                                     ),
-                                                    duration: Duration(
+                                                    duration: const Duration(
                                                         milliseconds: 1000),
                                                   );
                                                 }
                                               },
-                                              child: const Text(
+                                              child: Text(
                                                 '확인',
                                                 style: contentpointstyle,
                                               ))
@@ -442,7 +459,7 @@ class ReportPage extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: const Text(
+                                  child: Text(
                                     '그만두기',
                                     style: pointstyle,
                                   ),
@@ -455,12 +472,16 @@ class ReportPage extends StatelessWidget {
                               style: contentstyle,
                             ),
                             Text(
-                              '시급 : ${_.ongoingjob![index].hourlywage}',
+                              '시급 : ${formatCurrency.format(_.ongoingjob![index].hourlywage)} 원',
+                              style: contentstyle,
+                            ),
+                            Text(
+                              '첫 근무일 : ${DateFormat('yy-MM-dd', 'ko').format(DateTime.parse(_.ongoingjob![index].firstday))}',
                               style: contentstyle,
                             ),
                             Row(
                               children: [
-                                const Text(
+                                Text(
                                   '근무 요일 : ',
                                   style: contentstyle,
                                 ),
@@ -474,32 +495,37 @@ class ReportPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      empty(),
+                      empty2(),
                     ],
                   );
                 })
-            : Container(
-                height: 150,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.8),
-                      spreadRadius: 0.4,
-                      blurRadius: 2,
-                      offset: const Offset(0, 4),
-                    )
-                  ],
-                ),
-                child: const Center(
-                  child: Text(
-                    '진행중인 알바가 없어요!',
-                    style: contentpointstyle,
+            : Column(
+                children: [
+                  Container(
+                    height: height * 0.4,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          spreadRadius: 0.4,
+                          blurRadius: 2,
+                          offset: const Offset(0, 4),
+                        )
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        '진행중인 알바가 없어요!',
+                        style: contentpointstyle,
+                      ),
+                    ),
                   ),
-                ),
+                  empty2(),
+                ],
               ),
       ],
     );

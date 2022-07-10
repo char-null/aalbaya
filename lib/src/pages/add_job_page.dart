@@ -18,12 +18,12 @@ class AddTaskPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormBuilderState>();
     final _ = Get.put(JobController());
-    final viewController = Get.put(ViewController());
+    final viewController = Get.find<ViewController>();
     return GetBuilder<JobController>(builder: (_) {
       return Scaffold(
-        backgroundColor: backgroundcolor,
+        backgroundColor: const Color(0xfff3f4f6),
         appBar: AppBar(
-          backgroundColor: backgroundcolor,
+          backgroundColor: const Color(0xfff3f4f6),
           elevation: 0.0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -35,8 +35,8 @@ class AddTaskPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 18.0,
+            padding: EdgeInsets.symmetric(
+              horizontal: width * 0.08,
             ),
             child: FormBuilder(
               key: _formkey,
@@ -50,7 +50,7 @@ class AddTaskPage extends StatelessWidget {
                   hourlyWage(),
                   firstDay(),
                   choiceDay(),
-                  const Text(
+                  Text(
                     '근무 시간',
                     style: headstyle,
                   ),
@@ -58,14 +58,14 @@ class AddTaskPage extends StatelessWidget {
                   Row(
                     children: [
                       workTime('attendance', '출근 시간'),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(
+                        width: width * 0.05,
                       ),
                       workTime('closing', '퇴근 시간'),
                     ],
                   ),
-                  const SizedBox(
-                    height: 40,
+                  SizedBox(
+                    height: height * 0.05,
                   ),
                   InkWell(
                     onTap: () async {
@@ -142,8 +142,8 @@ class AddTaskPage extends StatelessWidget {
   }
 
   SizedBox empty() {
-    return const SizedBox(
-      height: 10,
+    return SizedBox(
+      height: height * 0.03,
     );
   }
 
@@ -152,7 +152,7 @@ class AddTaskPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '직종 선택',
           style: headstyle,
         ),
@@ -161,11 +161,11 @@ class AddTaskPage extends StatelessWidget {
           height: 50,
           child: GridView.builder(
             physics: const ScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
               childAspectRatio: 2 / 1,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
+              mainAxisSpacing: height,
+              crossAxisSpacing: height * 0.02,
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -211,20 +211,20 @@ class AddTaskPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '근무 요일',
           style: headstyle,
         ),
         empty(),
         SizedBox(
-          height: 50,
+          height: height * 0.15,
           child: GridView.builder(
             physics: const ScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
               childAspectRatio: 1 / 1,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
+              mainAxisSpacing: height,
+              crossAxisSpacing: height * 0.02,
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -267,51 +267,45 @@ class AddTaskPage extends StatelessWidget {
   Widget workTime(String name, String hinttext) {
     final _ = Get.find<JobController>();
     return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            5,
-          ),
-        ),
-        child: FormBuilderDateTimePicker(
-          validator: (val) {
-            return val == null ? "시간을 입력해주세요." : null;
-          },
-          format: DateFormat('aa hh:mm', 'ko'),
-          transitionBuilder: (context, child) {
-            return Theme(
-              data: ThemeData.dark().copyWith(
-                primaryColor: pointcolor,
-                colorScheme: const ColorScheme.light(
-                  primary: pointcolor,
-                  surface: Colors.white,
-                  onSurface: pointcolor,
-                ),
-                dialogBackgroundColor: Colors.white,
+      child: FormBuilderDateTimePicker(
+        validator: (val) {
+          return val == null ? "시간을 입력해주세요." : null;
+        },
+        format: DateFormat('aa hh:mm', 'ko'),
+        transitionBuilder: (context, child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              primaryColor: pointcolor,
+              colorScheme: const ColorScheme.light(
+                primary: pointcolor,
+                surface: Colors.white,
+                onSurface: pointcolor,
               ),
-              child: child!,
-            );
-          },
-          inputType: InputType.time,
-          timePickerInitialEntryMode: TimePickerEntryMode.input,
-          name: name,
-          style: headstyle,
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(5)),
-            errorStyle: pointstyle,
-            filled: true,
-            fillColor: Colors.white,
-            border: InputBorder.none,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            hoverColor: Colors.white,
-            hintText: hinttext,
-            hintStyle: TextStyle(
-              color: Colors.black.withOpacity(0.2),
+              dialogBackgroundColor: Colors.white,
             ),
+            child: child!,
+          );
+        },
+        inputType: InputType.time,
+        timePickerInitialEntryMode: TimePickerEntryMode.input,
+        name: name,
+        style: formbuilderstyle,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
           ),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(5)),
+          errorStyle: pointstyle,
+          filled: true,
+          fillColor: Colors.white,
+          border: InputBorder.none,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          hoverColor: Colors.white,
+          hintText: hinttext,
+          hintStyle: formbuilderhintstyle,
         ),
       ),
     );
@@ -321,7 +315,7 @@ class AddTaskPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '첫 출근일',
           style: headstyle,
         ),
@@ -334,7 +328,7 @@ class AddTaskPage extends StatelessWidget {
           inputType: InputType.date,
           format: DateFormat.yMMMEd('ko'),
           name: 'firstday',
-          style: headstyle,
+          style: formbuilderstyle,
           transitionBuilder: (context, child) {
             return Theme(
               data: ThemeData.dark().copyWith(
@@ -365,9 +359,7 @@ class AddTaskPage extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               hoverColor: Colors.white,
               hintText: '예) ${DateFormat.yMMMEd('ko').format(DateTime.now())}',
-              hintStyle: TextStyle(
-                color: Colors.black.withOpacity(0.2),
-              ),
+              hintStyle: formbuilderhintstyle,
               errorStyle: pointstyle),
         ),
         empty()
@@ -394,23 +386,24 @@ class AddTaskPage extends StatelessWidget {
           name: name,
           cursorWidth: 1,
           cursorColor: Colors.black,
-          style: headstyle,
+          style: formbuilderstyle,
           decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(5)),
-            filled: true,
-            fillColor: Colors.white,
-            border: InputBorder.none,
-            errorStyle: pointstyle,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            hoverColor: Colors.white,
-            hintText: hinttext,
-            hintStyle: TextStyle(
-              color: Colors.black.withOpacity(0.2),
-            ),
-          ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(width: 2, color: pointcolor),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(5)),
+              filled: true,
+              fillColor: Colors.white,
+              border: InputBorder.none,
+              errorStyle: pointstyle,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              hoverColor: Colors.white,
+              hintText: hinttext,
+              hintStyle: formbuilderhintstyle),
         ),
         empty()
       ],
@@ -423,7 +416,7 @@ class AddTaskPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '시급',
           style: headstyle,
         ),
@@ -441,23 +434,24 @@ class AddTaskPage extends StatelessWidget {
           name: 'hourlywage',
           cursorWidth: 1,
           cursorColor: Colors.black,
-          style: headstyle,
+          style: formbuilderstyle,
           decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(5)),
-            filled: true,
-            fillColor: Colors.white,
-            border: InputBorder.none,
-            errorStyle: pointstyle,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            hoverColor: Colors.white,
-            hintText: '예) ${formatCurrency.format(9160)}',
-            hintStyle: TextStyle(
-              color: Colors.black.withOpacity(0.2),
-            ),
-          ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(width: 2, color: pointcolor),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(5)),
+              filled: true,
+              fillColor: Colors.white,
+              border: InputBorder.none,
+              errorStyle: pointstyle,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              hoverColor: Colors.white,
+              hintText: '예) ${formatCurrency.format(9160)}',
+              hintStyle: formbuilderhintstyle),
         ),
         empty()
       ],
