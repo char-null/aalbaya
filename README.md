@@ -1,11 +1,12 @@
 
 # 아알바야
+Getx 와 sqflite 패키지를 사용하여 만든 알바관리 앱입니다.
 
-진행하고있는 알바 혹은 전에 했던 알바들의 정보를 표기하고 관리해주는 앱입니다.(아직 프론트단계)
+진행하고있는 알바 혹은 전에 했던 알바들의 정보를 확인하고 관리할 수 있습니다.
+아래 화면은 Figma로 만든 프론트디자인이라 실제 앱과 조금 다를 수 있습니다.
 
 ## 홈화면
 <img src= https://user-images.githubusercontent.com/85559690/176369959-2d7c453d-796c-4f0f-b807-b25c95a208ef.png width="30%">
-
 
 ## 알바 추가 화면
 <img src=https://user-images.githubusercontent.com/85559690/176369965-28d67c7c-fa4c-42c3-9361-8142a71df361.png width="30%">
