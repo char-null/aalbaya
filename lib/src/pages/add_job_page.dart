@@ -165,7 +165,7 @@ class AddTaskPage extends StatelessWidget {
               crossAxisCount: 4,
               childAspectRatio: 2 / 1,
               mainAxisSpacing: height,
-              crossAxisSpacing: height * 0.02,
+              crossAxisSpacing: height * 0.03,
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -224,7 +224,7 @@ class AddTaskPage extends StatelessWidget {
               crossAxisCount: 7,
               childAspectRatio: 1 / 1,
               mainAxisSpacing: height,
-              crossAxisSpacing: height * 0.02,
+              crossAxisSpacing: height * 0.03,
             ),
             itemBuilder: (context, index) {
               return GestureDetector(

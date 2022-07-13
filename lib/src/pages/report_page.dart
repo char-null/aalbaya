@@ -80,8 +80,8 @@ class ReportPage extends StatelessWidget {
         empty(),
         _.lastjob!.isNotEmpty
             ? Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.08, vertical: width * 0.07),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Colors.white,
@@ -116,8 +116,8 @@ class ReportPage extends StatelessWidget {
               )
             : Container(
                 height: height * 0.4,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.08, vertical: width * 0.07),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Colors.white,
@@ -188,8 +188,8 @@ class ReportPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.08, vertical: width * 0.07),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
@@ -209,27 +209,41 @@ class ReportPage extends StatelessWidget {
                               _.lastjob![index].jobname,
                               style: subheadstyle,
                             ),
-                            empty(),
+                            SizedBox(
+                              height: width * 0.08,
+                            ),
                             Text(
                               '직종 : ${_.lastjob![index].jobtype}',
                               style: contentstyle,
+                            ),
+                            SizedBox(
+                              height: width * 0.01,
                             ),
                             Text(
                               '세부직종 : ${_.lastjob![index].jobdetail}',
                               style: contentstyle,
                             ),
+                            SizedBox(
+                              height: width * 0.01,
+                            ),
                             Text(
                               '시급 : ${formatCurrency.format(_.lastjob![index].hourlywage)} 원',
                               style: contentstyle,
+                            ),
+                            SizedBox(
+                              height: width * 0.01,
                             ),
                             Text(
                               '알바기간 : ${DateFormat('yy-MM-dd', 'ko').format(DateTime.parse(_.lastjob![index].firstday))} ~ ${DateFormat('yy-MM-dd', 'ko').format(DateTime.parse(_.lastjob![index].closeday!))}',
                               style: contentstyle,
                             ),
+                            SizedBox(
+                              height: width * 0.01,
+                            ),
                             Text(
                               '총 수입 : ${formatCurrency.format(_.lastjob![index].totalwage)} 원',
                               style: contentstyle,
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -264,8 +278,8 @@ class ReportPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.08, vertical: width * 0.07),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
@@ -466,18 +480,36 @@ class ReportPage extends StatelessWidget {
                                 )
                               ],
                             ),
-                            empty(),
+                            SizedBox(
+                              height: width * 0.08,
+                            ),
+                            Text(
+                              '근무 기간 : ${DateFormat('yy-MM-dd', 'ko').format(DateTime.parse(_.ongoingjob![index].firstday))} ~ ',
+                              style: contentstyle,
+                            ),
                             Text(
                               '직종 : ${_.ongoingjob![index].jobdetail}',
                               style: contentstyle,
+                            ),
+                            SizedBox(
+                              height: width * 0.01,
                             ),
                             Text(
                               '시급 : ${formatCurrency.format(_.ongoingjob![index].hourlywage)} 원',
                               style: contentstyle,
                             ),
+                            SizedBox(
+                              height: width * 0.01,
+                            ),
                             Text(
-                              '첫 근무일 : ${DateFormat('yy-MM-dd', 'ko').format(DateTime.parse(_.ongoingjob![index].firstday))}',
+                              '현재까지 수입 : ${formatCurrency.format(_.ongoingjob![index].hourlywage)} 원',
                               style: contentstyle,
+                            ),
+                            SizedBox(
+                              height: width * 0.01,
+                            ),
+                            SizedBox(
+                              height: width * 0.01,
                             ),
                             Row(
                               children: [
@@ -503,8 +535,8 @@ class ReportPage extends StatelessWidget {
                 children: [
                   Container(
                     height: height * 0.4,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.08, vertical: width * 0.07),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white,
