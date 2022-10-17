@@ -3,7 +3,6 @@
 Getx 와 sqflite 패키지를 사용하여 만든 알바관리 앱입니다.
 
 진행하고있는 알바 혹은 전에 했던 알바들의 정보를 확인하고 관리할 수 있습니다.
-아래 화면은 Figma로 만든 프론트 디자인입니다.
 
 ## 홈화면
 <img src= https://user-images.githubusercontent.com/85559690/176369959-2d7c453d-796c-4f0f-b807-b25c95a208ef.png width="30%">
